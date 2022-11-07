@@ -65,8 +65,48 @@ $superheroes = [
 
 ?>
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $sup_hero = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
+    echo("<h1>Result</h1>");
+    echo("<hr>");
+    $located = FALSE;
+
+    // $testing ="tester";
+
+
+
+    if (!empty($sup_hero)){
+        foreach ($superheroes as $suphero){
+            if ( (strtolower($sup_hero) == strtolower($suphero["alias"])) || (strtolower($sup_hero) == strtolower($suphero["name"]))){
+                echo("<h3>".$suphero['alias']."</h3>");
+                echo("<h4>".$suphero['name']."</h4>");
+                echo("<p>".$suphero['biography']."</p>");
+                $located = TRUE;
+            }
+        }
+        if ($located == FALSE){
+            echo("<p>SUPERHERO NOT FOUND</p>");
+        }
+
+    } else {
+       // echo("<ul>");
+        foreach ($superheroes as $superhero):
+            echo("<li>".$superhero["alias"]."</li>");
+        endforeach;
+       // echo("</ul>");
+    }
+}
+
+
+?>
+
+<?php
+/*
 <ul>
 <?php foreach ($superheroes as $superhero): ?>
   <li><?= $superhero['alias']; ?></li>
 <?php endforeach; ?>
 </ul>
+*/
+?>
